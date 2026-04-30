@@ -1,0 +1,245 @@
+:root {
+  --bg: #141414;
+  --panel: #1c1c1c;
+  --panel-hi: #232323;
+  --line: #2a2a2a;
+  --ink: #e6e6e6;
+  --ink-dim: #8a8a8a;
+  --ink-faint: #555;
+  --accent: #d4a73a;
+  --mono: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace;
+  --sans: -apple-system, "Segoe UI", "Inter", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px 32px;
+}
+
+#app {
+  width: 100%;
+  max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ---------- Topbar ----------------------------------------------------- */
+
+#topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 2px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-dim);
+}
+
+#wordmark {
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  font-weight: 500;
+}
+
+#topbar-spacer {
+  flex: 1;
+}
+
+#raw-label,
+#fps-label {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-faint);
+}
+
+#raw-label:empty {
+  display: none;
+}
+
+/* ---------- Video container ------------------------------------------- */
+
+#video-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border: 1px solid var(--line);
+}
+
+#webcam,
+#draw-canvas,
+#overlay-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(-1);
+}
+
+#draw-canvas { z-index: 1; }
+#overlay-canvas {
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ---------- In-canvas labels and controls ----------------------------- */
+
+#gesture-label {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  z-index: 3;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  background: rgba(20, 20, 20, 0.85);
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+}
+
+#brush-control {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 3;
+  display: flex;
+  align-items: stretch;
+  font-family: var(--mono);
+  font-size: 11px;
+  background: rgba(20, 20, 20, 0.85);
+  border: 1px solid var(--line);
+}
+
+#brush-control button {
+  width: 22px;
+  height: 22px;
+  background: transparent;
+  border: none;
+  color: var(--ink);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1;
+  padding: 0;
+}
+
+#brush-control button:hover {
+  background: var(--panel-hi);
+}
+
+#brush-size {
+  min-width: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-dim);
+  font-variant-numeric: tabular-nums;
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+
+#color-palette {
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  z-index: 3;
+  display: flex;
+  gap: 4px;
+  background: rgba(20, 20, 20, 0.85);
+  padding: 4px;
+  border: 1px solid var(--line);
+}
+
+.swatch {
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  background-clip: padding-box;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+}
+
+.swatch:hover {
+  outline: 1px solid var(--ink-dim);
+  outline-offset: 1px;
+}
+
+.swatch.active {
+  outline: 1px solid var(--ink);
+  outline-offset: 1px;
+}
+
+/* ---------- Action buttons -------------------------------------------- */
+
+#actions {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  z-index: 3;
+  display: flex;
+  gap: 1px;
+  font-family: var(--mono);
+  font-size: 11px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+#actions button {
+  background: rgba(20, 20, 20, 0.92);
+  border: none;
+  color: var(--ink);
+  padding: 5px 10px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: 0.04em;
+}
+
+#actions button:hover {
+  background: var(--panel-hi);
+}
+
+/* ---------- Gesture guide --------------------------------------------- */
+
+#gesture-guide {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  padding: 0 2px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+
+#gesture-guide b {
+  color: var(--ink-dim);
+  font-weight: 500;
+  margin-right: 4px;
+}
+
+/* ---------- Narrow viewports ------------------------------------------ */
+
+@media (max-width: 640px) {
+  #gesture-guide { gap: 4px 10px; }
+  #actions button { padding: 4px 7px; font-size: 10px; }
+  .swatch { width: 16px; height: 16px; }
+  #brush-control button { width: 20px; height: 20px; }
+}

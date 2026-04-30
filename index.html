@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>hand-draw</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <main id="app">
+    <header id="topbar">
+      <span id="wordmark">hand&#x2011;draw</span>
+      <span id="topbar-spacer"></span>
+      <span id="raw-label" title="Raw model output"></span>
+      <span id="fps-label"></span>
+    </header>
+
+    <div id="video-container">
+      <video id="webcam" autoplay playsinline muted></video>
+      <canvas id="draw-canvas"></canvas>
+      <canvas id="overlay-canvas"></canvas>
+
+      <div id="gesture-label">Loading</div>
+
+      <div id="brush-control" title="Brush size">
+        <button id="brush-down" type="button" aria-label="Smaller brush">&minus;</button>
+        <span id="brush-size">100%</span>
+        <button id="brush-up" type="button" aria-label="Larger brush">+</button>
+      </div>
+
+      <div id="color-palette" aria-label="Color palette"></div>
+
+      <div id="actions">
+        <button id="undo-btn" type="button" title="Undo (Ctrl+Z)">undo</button>
+        <button id="clear-btn" type="button" title="Clear canvas (C)">clear</button>
+        <button id="save-btn" type="button" title="Save as PNG (Ctrl+S)">save</button>
+      </div>
+    </div>
+
+    <footer id="gesture-guide">
+      <span><b>point</b> draw</span>
+      <span><b>palm</b> erase</span>
+      <span><b>fist</b> idle</span>
+      <span><b>peace</b> color</span>
+      <span><b>thumbs-up</b> undo</span>
+    </footer>
+  </main>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
