@@ -293,6 +293,42 @@ function renderLoop() {
   requestAnimationFrame(renderLoop);
 }
 
+function bindThemeToggle() {
+  const btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const root = document.documentElement;
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+}
+
+function applyBgMode(mode) {
+  const container = document.getElementById('video-container');
+  const label = document.getElementById('bg-toggle-label');
+  if (!container) return;
+  if (mode === 'webcam') {
+    container.classList.add('bg-webcam');
+    if (label) label.textContent = 'Webcam';
+  } else {
+    container.classList.remove('bg-webcam');
+    if (label) label.textContent = 'Blank';
+  }
+}
+
+function bindBgToggle() {
+  const btn = document.getElementById('bg-toggle');
+  if (!btn) return;
+  applyBgMode(localStorage.getItem('bgMode') || 'blank');
+  btn.addEventListener('click', () => {
+    const container = document.getElementById('video-container');
+    const next = container.classList.contains('bg-webcam') ? 'blank' : 'webcam';
+    applyBgMode(next);
+    localStorage.setItem('bgMode', next);
+  });
+}
+
 function bindKeyboardShortcuts() {
   window.addEventListener('keydown', (e) => {
     // Ignore if user is typing in some input (none currently, but future-proof).
@@ -400,6 +436,8 @@ async function main() {
 
     bindKeyboardShortcuts();
     bindUnloadCleanup();
+    bindThemeToggle();
+    bindBgToggle();
 
     gestureLabel.textContent = 'Ready';
     renderLoop();

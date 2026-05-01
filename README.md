@@ -1,10 +1,12 @@
-# hand-draw
+# Plume
 
 A web application that turns webcam-tracked hand gestures into a drawing canvas.
 Point with your index finger to draw, hold up an open palm to erase, and use
 peace, fist, or thumbs-up gestures to control colour and undo.
 
 All inference runs in the browser. No video leaves the device.
+
+A lab project from [The Developer Guys](https://thedeveloperguys.com).
 
 ## Requirements
 

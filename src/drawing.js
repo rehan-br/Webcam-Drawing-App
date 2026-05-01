@@ -233,7 +233,7 @@ export class DrawingEngine {
     tempCtx.drawImage(this.drawCanvas, 0, 0);
 
     const link = document.createElement('a');
-    link.download = `hand-draw-${Date.now()}.png`;
+    link.download = `plume-${Date.now()}.png`;
     link.href = tempCanvas.toDataURL('image/png');
     link.click();
   }

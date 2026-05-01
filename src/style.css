@@ -1,85 +1,224 @@
 :root {
-  --bg: #141414;
-  --panel: #1c1c1c;
-  --panel-hi: #232323;
-  --line: #2a2a2a;
-  --ink: #e6e6e6;
-  --ink-dim: #8a8a8a;
-  --ink-faint: #555;
-  --accent: #d4a73a;
-  --mono: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace;
-  --sans: -apple-system, "Segoe UI", "Inter", system-ui, sans-serif;
+  --bg: #f5f0e8;
+  --bg-alt: #ffffff;
+  --ink: #1a1a1a;
+  --ink-light: #6b6560;
+  --cream: #f5f0e8;
+  --card-bg: #ffffff;
+  --card-border: rgba(26,26,26,.08);
+  --nav-bg: rgba(245,240,232,.85);
+  --nav-border: rgba(26,26,26,.06);
+  --orange: #e8572a;
+  --orange-light: #ff7a52;
+  --teal: #1a8a7d;
+  --teal-light: #2bc4b0;
+  --lemon: #e8d44a;
+  --blue: #3d5afe;
+  --shadow-color: rgba(26,26,26,.08);
+  --shadow-strong: rgba(26,26,26,.14);
+  --pill-bg: rgba(26,26,26,.05);
+  --pill-border: rgba(26,26,26,.08);
+  --kbd-bg: rgba(26,26,26,.05);
+  --kbd-border: rgba(26,26,26,.12);
+  --logo-border: rgba(26,26,26,.08);
+
+  /* Inside the live-video card — always dark (the canvas IS the artwork). */
+  --canvas-bg: #1c1c1c;
+  --canvas-line: rgba(255,255,255,.08);
+  --canvas-ink: #e8e8e8;
+  --canvas-ink-dim: #8a8a8a;
+  --canvas-ink-faint: #555;
+  --canvas-panel: rgba(20,20,20,.88);
+
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'Outfit', system-ui, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace;
 }
 
-* {
-  box-sizing: border-box;
+[data-theme="dark"] {
+  --bg: #121214;
+  --bg-alt: #1a1a1e;
+  --ink: #e8e4dc;
+  --ink-light: #9a958f;
+  --cream: #e8e4dc;
+  --card-bg: #1e1e22;
+  --card-border: rgba(255,255,255,.07);
+  --nav-bg: rgba(18,18,20,.88);
+  --nav-border: rgba(255,255,255,.06);
+  --shadow-color: rgba(0,0,0,.35);
+  --shadow-strong: rgba(0,0,0,.5);
+  --pill-bg: rgba(255,255,255,.06);
+  --pill-border: rgba(255,255,255,.08);
+  --kbd-bg: rgba(255,255,255,.06);
+  --kbd-border: rgba(255,255,255,.12);
+  --logo-border: rgba(255,255,255,.1);
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-}
-
+*,*::before,*::after { margin: 0; padding: 0; box-sizing: border-box; }
+::selection { background: var(--orange); color: #fff; }
+html { scroll-behavior: smooth; }
 body {
+  font-family: var(--font-body);
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--sans);
-  font-size: 14px;
+  overflow-x: hidden;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  padding: 24px 16px 32px;
+  font-size: 16px;
+  font-weight: 400;
+  transition: background .4s, color .4s;
 }
+a { color: inherit; }
 
-#app {
-  width: 100%;
-  max-width: 1280px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
+/* ---------- Navigation -------------------------------------------------- */
 
-/* ---------- Topbar ----------------------------------------------------- */
-
-#topbar {
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  padding: 1rem 2.5rem;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 0 2px;
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--ink-dim);
+  justify-content: space-between;
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1.5px solid var(--nav-border);
+  transition: background .4s, border-color .4s;
 }
 
-#wordmark {
+.nav-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: .65rem;
+  text-decoration: none;
   color: var(--ink);
-  letter-spacing: -0.01em;
+  user-select: none;
+  transition: transform .2s;
+}
+.nav-logo:active { transform: scale(.96); }
+
+.logo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1.5px solid var(--logo-border);
+  background: var(--card-bg);
+  color: var(--orange);
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1), border-color .3s;
+}
+.logo-mark svg { width: 19px; height: 19px; }
+.nav-logo:hover .logo-mark { transform: rotate(-6deg) scale(1.05); border-color: var(--orange); }
+
+.nav-name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.45rem;
+  letter-spacing: -.5px;
+}
+
+.nav-right { display: flex; align-items: center; gap: 1rem; }
+
+.nav-back {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  font-size: .82rem;
   font-weight: 500;
+  color: var(--ink-light);
+  text-decoration: none;
+  padding: .5rem .9rem;
+  border-radius: 100px;
+  transition: color .2s, background .2s;
+}
+.nav-back:hover { color: var(--ink); background: var(--pill-bg); }
+.nav-back svg { transition: transform .2s; }
+.nav-back:hover svg { transform: translateX(-3px); }
+
+.theme-toggle {
+  background: none;
+  border: 1.5px solid var(--card-border);
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--ink);
+  transition: all .3s cubic-bezier(.34,1.56,.64,1);
+  flex-shrink: 0;
+}
+.theme-toggle:hover { border-color: var(--orange); color: var(--orange); transform: scale(1.08); }
+.theme-toggle svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .4s cubic-bezier(.34,1.56,.64,1); }
+.theme-toggle:hover svg { transform: rotate(30deg); }
+.theme-toggle .icon-moon { display: none; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+
+/* ---------- Hero --------------------------------------------------------- */
+
+main { padding-bottom: 4rem; }
+
+.hero {
+  text-align: center;
+  padding: 3.5rem 2rem 2.5rem;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
-#topbar-spacer {
-  flex: 1;
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 1.25rem;
+}
+.eyebrow-line { display: block; width: 28px; height: 1.5px; background: currentColor; opacity: .45; }
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.6rem, 6vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -1.5px;
+  margin-bottom: 1.4rem;
+}
+.hero h1 em { font-style: italic; color: var(--orange); }
+
+.hero-sub {
+  max-width: 560px;
+  margin: 0 auto;
+  color: var(--ink-light);
+  font-size: 1.05rem;
+  line-height: 1.65;
 }
 
-#raw-label,
-#fps-label {
-  font-variant-numeric: tabular-nums;
-  color: var(--ink-faint);
-}
+/* ---------- Stage (the canvas card) ------------------------------------- */
 
-#raw-label:empty {
-  display: none;
+.stage {
+  max-width: 1280px;
+  margin: 0 auto 3rem;
+  padding: 0 2rem;
 }
-
-/* ---------- Video container ------------------------------------------- */
 
 #video-container {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: #000;
-  border: 1px solid var(--line);
+  background: var(--canvas-bg);
+  border: 1.5px solid var(--card-border);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 24px 70px var(--shadow-color);
+  transition: box-shadow .35s, border-color .35s, transform .35s;
 }
+#video-container:hover { box-shadow: 0 30px 90px var(--shadow-strong); }
 
 #webcam,
 #draw-canvas,
@@ -97,149 +236,343 @@ body {
   pointer-events: none;
 }
 
-/* ---------- In-canvas labels and controls ----------------------------- */
+/* ---- Status row (top-left): gesture label + raw + FPS, all unified ----- */
 
-#gesture-label {
+#status-row {
   position: absolute;
-  top: 10px;
-  left: 12px;
-  z-index: 3;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-  background: rgba(20, 20, 20, 0.85);
-  padding: 4px 8px;
-  border: 1px solid var(--line);
-}
-
-#brush-control {
-  position: absolute;
-  top: 10px;
-  right: 12px;
+  top: 14px;
+  left: 16px;
   z-index: 3;
   display: flex;
-  align-items: stretch;
-  font-family: var(--mono);
-  font-size: 11px;
-  background: rgba(20, 20, 20, 0.85);
-  border: 1px solid var(--line);
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-start;
 }
 
+#gesture-label {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--canvas-ink);
+  background: var(--canvas-panel);
+  border: 1px solid var(--canvas-line);
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.status-meta {
+  display: flex;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--canvas-ink-faint);
+}
+
+#raw-label,
+#fps-label {
+  background: var(--canvas-panel);
+  padding: 3px 7px;
+  border-radius: 5px;
+  font-variant-numeric: tabular-nums;
+}
+#raw-label:empty { display: none; }
+
+/* ---- Right stack (top-right): bg toggle + brush control --------------- */
+
+#right-stack {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+#bg-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px 5px 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--canvas-ink);
+  background: var(--canvas-panel);
+  border: 1px solid var(--canvas-line);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+#bg-toggle:hover { background: rgba(255,255,255,.08); color: var(--orange-light); border-color: var(--orange-light); }
+#bg-toggle svg { width: 13px; height: 13px; }
+#bg-toggle .icon-cam { display: none; }
+#video-container.bg-webcam #bg-toggle .icon-blank { display: none; }
+#video-container.bg-webcam #bg-toggle .icon-cam { display: block; }
+
+/* When blank mode is active (default), hide the video so only drawings + */
+/* overlay show. Use opacity rather than display so the stream stays live  */
+/* and Mediapipe can still read from the element.                         */
+#video-container:not(.bg-webcam) #webcam { opacity: 0; }
+
+#brush-control {
+  display: flex;
+  align-items: stretch;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--canvas-panel);
+  border: 1px solid var(--canvas-line);
+  border-radius: 8px;
+  overflow: hidden;
+}
 #brush-control button {
-  width: 22px;
-  height: 22px;
+  width: 26px; height: 26px;
   background: transparent;
   border: none;
-  color: var(--ink);
+  color: var(--canvas-ink);
   cursor: pointer;
-  font-family: inherit;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1;
   padding: 0;
+  transition: background .15s, color .15s;
 }
-
-#brush-control button:hover {
-  background: var(--panel-hi);
-}
-
+#brush-control button:hover { background: rgba(255,255,255,.08); color: var(--orange-light); }
 #brush-size {
-  min-width: 42px;
+  min-width: 46px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--ink-dim);
+  color: var(--canvas-ink-dim);
   font-variant-numeric: tabular-nums;
-  border-left: 1px solid var(--line);
-  border-right: 1px solid var(--line);
+  border-left: 1px solid var(--canvas-line);
+  border-right: 1px solid var(--canvas-line);
 }
+
+/* ---- Color palette (bottom-right) ------------------------------------- */
 
 #color-palette {
   position: absolute;
-  bottom: 10px;
-  right: 12px;
+  bottom: 14px;
+  right: 16px;
   z-index: 3;
   display: flex;
-  gap: 4px;
-  background: rgba(20, 20, 20, 0.85);
-  padding: 4px;
-  border: 1px solid var(--line);
+  gap: 5px;
+  background: var(--canvas-panel);
+  padding: 5px;
+  border: 1px solid var(--canvas-line);
+  border-radius: 10px;
 }
-
 .swatch {
-  width: 18px;
-  height: 18px;
-  border: 1px solid rgba(0, 0, 0, 0.4);
+  width: 20px; height: 20px;
+  border: 1.5px solid rgba(0,0,0,.4);
   background-clip: padding-box;
   cursor: pointer;
   padding: 0;
   outline: none;
+  transition: transform .15s, outline-offset .15s;
+  border-radius: 4px;
 }
-
-.swatch:hover {
-  outline: 1px solid var(--ink-dim);
-  outline-offset: 1px;
-}
-
+.swatch:hover { transform: scale(1.12); outline: 1px solid rgba(255,255,255,.5); outline-offset: 2px; }
 .swatch.active {
-  outline: 1px solid var(--ink);
-  outline-offset: 1px;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+  transform: scale(1.08);
 }
 
-/* ---------- Action buttons -------------------------------------------- */
+/* ---- Actions (bottom-left) -------------------------------------------- */
 
 #actions {
   position: absolute;
-  bottom: 10px;
-  left: 12px;
+  bottom: 14px;
+  left: 16px;
   z-index: 3;
   display: flex;
   gap: 1px;
-  font-family: var(--mono);
-  font-size: 11px;
-  border: 1px solid var(--line);
-  background: var(--line);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--canvas-line);
+  border: 1px solid var(--canvas-line);
+  border-radius: 8px;
+  overflow: hidden;
 }
-
 #actions button {
-  background: rgba(20, 20, 20, 0.92);
+  background: var(--canvas-panel);
   border: none;
-  color: var(--ink);
-  padding: 5px 10px;
+  color: var(--canvas-ink);
+  padding: 7px 13px;
   cursor: pointer;
   font-family: inherit;
   font-size: inherit;
-  letter-spacing: 0.04em;
+  font-weight: inherit;
+  letter-spacing: .02em;
+  transition: background .15s, color .15s;
+}
+#actions button:hover { background: rgba(255,255,255,.1); color: var(--orange-light); }
+#actions button:first-child { border-top-left-radius: 7px; border-bottom-left-radius: 7px; }
+#actions button:last-child  { border-top-right-radius: 7px; border-bottom-right-radius: 7px; }
+
+/* ---------- Gesture guide section -------------------------------------- */
+
+.guide {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem 2rem 2rem;
 }
 
-#actions button:hover {
-  background: var(--panel-hi);
+.guide-header { text-align: center; max-width: 540px; margin: 0 auto 2.5rem; }
+
+.label-tag {
+  display: inline-block;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  background: rgba(232,87,42,.08);
+  padding: .35rem .9rem;
+  border-radius: 100px;
+  margin-bottom: 1rem;
+}
+[data-theme="dark"] .label-tag { background: rgba(232,87,42,.14); }
+
+.sec-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -.5px;
 }
 
-/* ---------- Gesture guide --------------------------------------------- */
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
 
-#gesture-guide {
+.guide-card {
+  position: relative;
   display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  padding: 1.4rem 1.1rem;
+  border-radius: 16px;
+  border: 1.5px solid var(--card-border);
+  background: var(--card-bg);
+  text-align: left;
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s, border-color .35s;
+}
+.guide-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px var(--shadow-color); border-color: transparent; }
+.guide-card::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 3px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+.guide-card-orange::before { background: var(--orange); }
+.guide-card-teal::before   { background: var(--teal); }
+.guide-card-ink::before    { background: var(--ink); }
+.guide-card-blue::before   { background: var(--blue); }
+.guide-card-lemon::before  { background: var(--lemon); }
+
+.guide-emoji {
+  font-size: 1.7rem;
+  line-height: 1;
+  margin-bottom: .35rem;
+  filter: grayscale(0);
+}
+
+.guide-name {
+  font-weight: 600;
+  font-size: .92rem;
+  color: var(--ink);
+  letter-spacing: -.005em;
+}
+
+.guide-action {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  color: var(--ink-light);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.guide-keyboard {
+  text-align: center;
+  font-size: .82rem;
+  color: var(--ink-light);
+  font-weight: 400;
+  line-height: 2;
+}
+.guide-keyboard kbd {
+  display: inline-block;
+  padding: 2px 7px;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  border-radius: 4px;
+  color: var(--ink);
+  margin: 0 1px;
+}
+
+/* ---------- Footer ------------------------------------------------------ */
+
+footer {
+  border-top: 1px solid var(--card-border);
+  padding: 2rem 2.5rem;
+  margin-top: 2rem;
+  transition: border-color .4s;
+}
+.footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 6px 18px;
-  padding: 0 2px;
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--ink-faint);
+  gap: 1rem;
+  font-size: .85rem;
+  color: var(--ink-light);
+}
+.footer-inner a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--ink-light);
+  transition: color .2s, border-color .2s;
+}
+.footer-inner a:hover { color: var(--orange); border-bottom-color: var(--orange); }
+.footer-links { display: flex; gap: 1.5rem; }
+
+/* ---------- Responsive -------------------------------------------------- */
+
+@media (max-width: 840px) {
+  nav { padding: .9rem 1.4rem; }
+  .nav-back { display: none; }
+  .hero { padding: 2.5rem 1.4rem 1.8rem; }
+  .stage { padding: 0 1rem; margin-bottom: 2rem; }
+  #video-container { border-radius: 16px; }
+  .guide { padding: 3rem 1.4rem 1.5rem; }
+  .guide-grid { grid-template-columns: repeat(2, 1fr); }
+  footer { padding: 1.5rem 1.4rem; }
 }
 
-#gesture-guide b {
-  color: var(--ink-dim);
-  font-weight: 500;
-  margin-right: 4px;
-}
-
-/* ---------- Narrow viewports ------------------------------------------ */
-
-@media (max-width: 640px) {
-  #gesture-guide { gap: 4px 10px; }
-  #actions button { padding: 4px 7px; font-size: 10px; }
-  .swatch { width: 16px; height: 16px; }
-  #brush-control button { width: 20px; height: 20px; }
+@media (max-width: 520px) {
+  .nav-name { font-size: 1.25rem; }
+  .hero h1 { letter-spacing: -1px; }
+  #status-row { top: 10px; left: 10px; }
+  #gesture-label { font-size: 10px; padding: 4px 8px; }
+  #brush-control { top: 10px; right: 10px; }
+  #color-palette { bottom: 10px; right: 10px; }
+  #actions { bottom: 10px; left: 10px; font-size: 11px; }
+  #actions button { padding: 6px 10px; }
+  .swatch { width: 18px; height: 18px; }
 }
